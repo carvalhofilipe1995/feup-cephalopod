@@ -37,11 +37,11 @@ rules:-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 board([
-        [1-2, 2-0, 0-0, 0-0, 0-0],      % 1-X -> 1 Represents the white color and the X represents the value of the piece
-        [1-2, 2-0, 0-0, 0-0, 0-0],      % 2-X -> 2 Represents the black color and the X represents the value of the piece
-        [1-2, 2-0, 0-0, 0-0, 0-0],      % 0-0 -> Represents an empty cell
-        [1-2, 2-0, 0-0, 0-0, 0-0],
-        [1-2, 2-0, 0-0, 0-0, 0-0]
+        [0-0, 0-0, 0-0, 0-0, 0-0],      % 1-X -> 1 Represents the white color and the X represents the value of the piece
+        [0-0, 0-0, 0-0, 0-0, 0-0],      % 2-X -> 2 Represents the black color and the X represents the value of the piece
+        [0-0, 0-0, 0-0, 0-0, 0-0],      % 0-0 -> Represents an empty cell
+        [0-0, 0-0, 0-0, 0-0, 0-0],
+        [0-0, 0-0, 0-0, 0-0, 0-0]
       ]).
 
 % Printing Board
@@ -51,9 +51,9 @@ columns:- write('          |    1    |    2    |    3    |    4    |    5    |\n
 
 lineConvert(LineNumber):- write('|    '), write(LineNumber), write('    ').
 
-convertValues(0, 0):- write('         ').                                      %% Empty Cell
-convertValues(1, Number):- write(' WHITE-'), write(Number), write(' ').        %% White Cell
-convertValues(2, Number):- write(' BLACK-'), write(Number), write(' ').        %% Black Cell
+convertValues(0, 0):- write('         ').                                                 %% Empty Cell
+convertValues(1, Number):- write('   *'), write(Number), write('*  '), write(' ').        %% White Cell
+convertValues(2, Number):- write('   <'), write(Number), write('>  '), write(' ').        %% Black Cell
 
 showBoard(Board):- columns, drawBoard(Board,1).
 
