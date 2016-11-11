@@ -110,5 +110,28 @@ emptyCellCol(Col, [H | T1], [H | T2]):-
         NewCol is Col - 1,
         emptyCellCol(NewCol, T1, T2).
 
+% Checks if the board is full of dieces a Cell %
+
+isBoardFilled([]).
+isBoardFilled([FirstLine | Rest]):- isLineFilled(FirstLine), isBoardFilled(Rest).
+
+isLineFilled([]).
+isLineFilled([Color - _ | Rest]):- Color \= 0 -> isLineFilled(Rest) ; fail.
+
+
+% Checks how many dieces are on board for a Player %
+
+countDieces([], _, 0).
+countDieces([FirstLine | Rest], Player, Counter):- 
+        countDieces(Rest, Player, NewCounter),
+        countDiecesLine(FirstLine, Player, PiecesLine),
+        Counter is PiecesLine + NewCounter.
+
+countDiecesLine([], _, 0).
+countDiecesLine([Player - _ | Rest], Player, Counter):- countDiecesLine(Rest, Player, NewCounter), Counter is NewCounter + 1.
+countDiecesLine([_ - _ | Rest], Player, Counter):- countDiecesLine(Rest, Player, Counter).
+
+
+
 
 
