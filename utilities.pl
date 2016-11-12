@@ -5,9 +5,6 @@
 
 % -- Interface Outputs -- %
 
-clearScreen(0).
-clearScreen(N):- nl, N1 is N-1, clearScreen(N1).
-
 cephalopod:- write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl,
              write('%%%%%%%%%%% CEPHALOPOD %%%%%%%%%%%%%'), nl,
              write('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'), nl.
