@@ -124,15 +124,15 @@ isLineFilled([Color - _ | Rest]):- Color \= 0 -> isLineFilled(Rest) ; fail.
 
 % Checks how many dieces are on board for a Player %
 
-countDieces([], _, 0).
-countDieces([FirstLine | Rest], Player, Counter):- 
-        countDieces(Rest, Player, NewCounter),
-        countDiecesLine(FirstLine, Player, PiecesLine),
+countDices([], _, 0).
+countDices([FirstLine | Rest], Player, Counter):- 
+        countDices(Rest, Player, NewCounter),
+        countDicesLine(FirstLine, Player, PiecesLine),
         Counter is PiecesLine + NewCounter.
 
-countDiecesLine([], _, 0).
-countDiecesLine([Player - _ | Rest], Player, Counter):- countDiecesLine(Rest, Player, NewCounter), Counter is NewCounter + 1.
-countDiecesLine([_ - _ | Rest], Player, Counter):- countDiecesLine(Rest, Player, Counter).
+countDicesLine([], _, 0).
+countDicesLine([Player - _ | Rest], Player, Counter):- countDicesLine(Rest, Player, NewCounter), Counter is NewCounter + 1.
+countDicesLine([_ - _ | Rest], Player, Counter):- countDicesLine(Rest, Player, Counter).
 
 
 
