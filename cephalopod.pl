@@ -43,7 +43,6 @@ playGame:- clearScreen(100), cephalopod, gameMode, read(Choice),
            (Choice = 0 ->  runGame; (Choice > 0, Choice < 4 -> startGame(Choice) ; write('Wrong input! Try again!'), playGame)).
 
 
-
 placeDice(Board, 1, 1, NewBoard, DiceValue, Player):- 
         getCell(1, 2, Board, _ - RightValue),
         getCell(2, 1, Board, _ - DownValue),
@@ -53,7 +52,10 @@ placeDice(Board, 1, 1, NewBoard, DiceValue, Player):-
                 emptyCell(2, 1, CurrentBoard, AuxBoard),
                 putDice(1, 1, AuxBoard, Player-DiceValue, NewBoard) 
                 ;  
-                write('Write a Message....')). %%%%%%%.
+                (DiceValue = 1 -> 
+                 putDice(1, 1, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip'))).
 
 placeDice(Board, 1, 5, NewBoard, DiceValue, Player):- 
         getCell(1, 4, Board, _ - LeftValue),
@@ -64,7 +66,10 @@ placeDice(Board, 1, 5, NewBoard, DiceValue, Player):-
                 emptyCell(2, 5, CurrentBoard, AuxBoard),
                 putDice(5, 5, AuxBoard, Player-DiceValue, NewBoard) 
                 ;  
-                write('Write a Message....')). %%%%%%%.
+                (DiceValue = 1 -> 
+                 putDice(1, 5, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip'))).
 
 placeDice(Board, 5, 1, NewBoard, DiceValue, Player):- 
         getCell(5, 2, Board, _ - RightValue),
@@ -75,7 +80,10 @@ placeDice(Board, 5, 1, NewBoard, DiceValue, Player):-
                 emptyCell(2, 1, CurrentBoard, AuxBoard),
                 putDice(1, 1, AuxBoard, Player-DiceValue, NewBoard) 
                 ;  
-                write('Write a Message....')). %%%%%%%.
+                (DiceValue = 1 -> 
+                 putDice(5, 1, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip'))). 
 
 placeDice(Board, 5, 5, NewBoard, DiceValue, Player):- 
         getCell(5, 4, Board, _ - LeftValue),
@@ -86,7 +94,10 @@ placeDice(Board, 5, 5, NewBoard, DiceValue, Player):-
                 emptyCell(2, 5, CurrentBoard, AuxBoard),
                 putDice(5, 5, AuxBoard, Player-DiceValue, NewBoard) 
                 ;  
-                write('Write a Message....')). %%%%%%%.
+                (DiceValue = 1 -> 
+                 putDice(5, 5, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip'))). 
 
 placeDice(Board, 1, Col, NewBoard, DiceValue, Player):-
         RightCol is Col + 1,
@@ -113,7 +124,10 @@ placeDice(Board, 1, Col, NewBoard, DiceValue, Player):-
                  emptyCell(2, Col, AuxBoard1, CurrentBoard),
                  putDice(1, Col, CurrentBoard, Player-DiceValue, NewBoard) 
                  ; 
-                 write('Write a Message....'))). %%%%%%%
+                 (DiceValue = 1 -> 
+                 putDice(1, Col, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip')))). 
 
 placeDice(Board, Line, 1, NewBoard, DiceValue, Player):-
         UpLine is Line - 1,
@@ -140,7 +154,10 @@ placeDice(Board, Line, 1, NewBoard, DiceValue, Player):-
                  emptyCell(Line, 2, AuxBoard1, CurrentBoard),
                  putDice(Line, 1, CurrentBoard, Player-DiceValue, NewBoard) 
                  ; 
-                 write('Write a Message....'))). %%%%%%%
+                 (DiceValue = 1 -> 
+                 putDice(Line, 1, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip')))).
 
 
 placeDice(Board, 5, Col, NewBoard, DiceValue, Player):-
@@ -168,7 +185,10 @@ placeDice(Board, 5, Col, NewBoard, DiceValue, Player):-
                  emptyCell(4, Col, AuxBoard1, CurrentBoard),
                  putDice(5, Col, CurrentBoard, Player-DiceValue, NewBoard) 
                  ; 
-                 write('Write a Message....'))). %%%%%%%
+                 (DiceValue = 1 -> 
+                 putDice(5, Col, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip')))).
 
 placeDice(Board, Line, 5, NewBoard, DiceValue, Player):-
         UpLine is Line - 1,
@@ -195,7 +215,10 @@ placeDice(Board, Line, 5, NewBoard, DiceValue, Player):-
                  emptyCell(Line, 4, AuxBoard1, CurrentBoard),
                  putDice(Line, 5, CurrentBoard, Player-DiceValue, NewBoard) 
                  ; 
-                 write('Write a Message....'))). %%%%%%%
+                (DiceValue = 1 -> 
+                 putDice(Line, 5, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip')))).
 
 placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
         RightCell is Col + 1,
@@ -238,8 +261,10 @@ placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
                  emptyCell(UpCell, Col, AuxBoard1, CurrentBoard),
                  putDice(Line, Col, CurrentBoard, Player-DiceValue, NewBoard) 
                  ; 
-                 write('Write a Message....'))). %%%%%%%
-
+                 (DiceValue = 1 -> 
+                 putDice(Line, Col, Board, Player-DiceValue, NewBoard) 
+                 ; 
+                 write('A non-capturing placement must show a single pip')))).
 
 
 
