@@ -42,7 +42,7 @@ columns:- write('          |    1    |    2    |    3    |    4    |    5    |\n
 
 lineConvert(LineNumber):- write('|    '), write(LineNumber), write('    ').
 
-convertValues(0, 0):- write('         ').                                                 %% Empty Cell
+convertValues(0, -1):- write('         ').                                                 %% Empty Cell
 convertValues(1, Number):- write('   *'), write(Number), write('*  '), write(' ').        %% White Cell
 convertValues(2, Number):- write('   <'), write(Number), write('>  '), write(' ').        %% Black Cell
 
@@ -79,6 +79,7 @@ putDiceAux(Col, [H|T1], Color-Value, [H|T2]):-
         NewCol is Col-1,
         putDiceAux(NewCol, T1, Color-Value, T2).
 
+
 % Getting Cell %
 
 getCell(1, Col, [H | _], Color-Value):-
@@ -95,6 +96,7 @@ getCellColl(Col, [_|T1], Color-Value):-
         NewCol is Col-1,
         getCellColl(NewCol, T1, Color-Value).
 
+
 % Empty a Cell %
 
 emptyCell(1, Col, [H1 | T], [H2 | T]) :-
@@ -109,6 +111,7 @@ emptyCellCol(Col, [H | T1], [H | T2]):-
         Col > 1, Col < 9,
         NewCol is Col - 1,
         emptyCellCol(NewCol, T1, T2).
+
 
 % Checks if the board is full of dieces a Cell %
 
