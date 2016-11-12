@@ -42,7 +42,7 @@ columns:- write('          |    1    |    2    |    3    |    4    |    5    |\n
 
 lineConvert(LineNumber):- write('|    '), write(LineNumber), write('    ').
 
-convertValues(0, -1):- write('         ').                                                 %% Empty Cell
+convertValues(0, 100):- write('         ').                                                 %% Empty Cell
 convertValues(1, Number):- write('   *'), write(Number), write('*  '), write(' ').        %% White Cell
 convertValues(2, Number):- write('   <'), write(Number), write('>  '), write(' ').        %% Black Cell
 
@@ -106,7 +106,7 @@ emptyCell(Row, Col, [H | T1], [H | T2]):-
         NewRow is Row - 1,
         emptyCell(NewRow, Col, T1, T2).
 
-emptyCellCol(1, [_ | T], [0-0 | T]).
+emptyCellCol(1, [_ | T], [0- (100) | T]).
 emptyCellCol(Col, [H | T1], [H | T2]):-
         Col > 1, Col < 9,
         NewCol is Col - 1,

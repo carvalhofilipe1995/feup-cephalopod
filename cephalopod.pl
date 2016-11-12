@@ -14,11 +14,11 @@ includeUtilities:- include('utilities.pl').
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 board([
-        [1-1,     0-(-1),   0-(-1),  0-(-1),  1-1],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
-        [0-(-1),  1-1,      0-(-1),  1-1,     0-(-1)],      % 2 - X -> 2 Represents the black color and the X represents the value of the piece
-        [2-4,     0-(-1),   0-(-1),  0-(-1),  1-1],      % 0 - (-1) -> Represents an empty cell
-        [0-(-1),  0-(-1),   0-(-1),  1-1,     0-(-1)],
-        [0-(-1),  0-(-1),   0-(-1),  0-(-1),  0-(-1)]
+        [0-(100),  0-(100),    0-(100),  0-(100),  1-1],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
+        [0-(100),  1-5,        0-(100),  1-1,      0-(100)],      % 2 - X -> 2 Represents the black color and the X represents the value of the piece
+        [2-4,      0-(100),    0-(100),  0-(100),  1-1],      % 0 - (-1) -> Represents an empty cell
+        [0-(100),  0-(100),    0-(100),  1-1,      0-(100)],
+        [0-(100),  0-(100),    0-(100),  0-(100),  0-(100)]
       ]).
 
 
@@ -35,8 +35,8 @@ readChoice(2):- clearScreen(100), rules, read(Choice), Choice = 0, runGame.
 readChoice(3):- write(' Exiting...').
 
 checkWinner(Board, WhiteDieces, BlackDieces, Winner):- 
-        countDieces(Board, 1, WhiteDieces), 
-        countDieces(Board, 2, BlackDieces),
+        countDices(Board, 1, WhiteDieces), 
+        countDices(Board, 2, BlackDieces),
         (WhiteDieces > BlackDieces -> Winner = 1 ; Winner = 2).
 
 playGame:- clearScreen(100), cephalopod, gameMode, read(Choice),
