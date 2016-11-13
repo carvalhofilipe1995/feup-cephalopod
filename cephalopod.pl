@@ -16,11 +16,11 @@ clearScreen(N):- nl, N1 is N-1, clearScreen(N1).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 board([
-         [0-(100),  0-(100),    0-(100),  0-(100),  1-1],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
-         [0-(100),  1-5,        0-(100),  1-1,      0-(100)],  % 2 - X -> 2 Represents the black color and the X represents the value of the piece
-         [2-4,      0-(100),    0-(100),  0-(100),  1-1],      % 0 - (100) -> Represents an empty cell
-         [0-(100),  0-(100),    0-(100),  1-1,      0-(100)],
-         [0-(100),  0-(100),    0-(100),  0-(100),  0-(100)]
+         [0-100,  2-4,    2-4,  2-4,  1-1],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
+         [2-4,  1-5,        2-4,  1-1,      2-4],  % 2 - X -> 2 Represents the black color and the X represents the value of the piece
+         [2-4,      2-4,    2-4,  2-4,  1-1],      % 0 - (100) -> Represents an empty cell
+         [2-4,  2-4,    2-4,  1-1,      2-4],
+         [2-4,  2-4,    2-4,  2-4,  2-4]
       ]).
 
 
@@ -35,10 +35,11 @@ readChoice(1):- playGame.
 readChoice(2):- clearScreen(100), rules, read(Choice), Choice = 0, runGame.
 readChoice(3):- write(' Exiting...').
 
-checkWinner(Board, WhiteDieces, BlackDieces, Winner):- 
+checkWinner(Board, Winner):- 
         countDices(Board, 1, WhiteDieces), 
         countDices(Board, 2, BlackDieces),
-        (WhiteDieces > BlackDieces -> Winner = 1 ; Winner = 2).
+        NumberPieces is WhiteDieces + BlackDieces,
+        (NumberPieces = 25 -> (WhiteDieces > BlackDieces -> Winner = 1 ; (WhiteDieces < BlackDieces -> Winner = 2)); Winner = 0).
 
 playGame:- clearScreen(100), cephalopod, gameMode, 
         read(Choice),
@@ -55,61 +56,95 @@ initializeGame(Mode):- board(BoardGame), Mode = 1 -> normalGame(1, BoardGame).
 
 normalGame(1, BoardGame):-
         clearScreen(100),
-        nl, write('   -> Whites Playing'), nl, nl,
-        showBoard(BoardGame), nl,
-        write('   -> Placing a dice'), nl, nl,
-        write('      -> Line '),
-        read(Line), Line > 0, Line < 6,
-        write('      -> Col '),
-        read(Col), Col > 0, Col < 6,
-        write('      -> Dice Value '),
-        read(DiceValue), DiceValue > 0, DiceValue < 7,
-        getCell(Line, Col, BoardGame, CellToMove - _),
-        (CellToMove \= 0 -> 
-         nl, nl, 
-         write('  -> This cell is already taken. Try again! Press 0 to continue.'), nl, 
-         write('  '), 
-         read(Back), 
-         Back = 0, 
-         normalGame(1, BoardGame)
-        ;
-         placeDice(BoardGame, Line, Col, NewBoard, DiceValue, 1), 
-         length(NewBoard, Change),
-         nl,
-         write(Change),
-         Change = 5 -> 
-         normalGame(2, NewBoard) 
+        checkWinner(BoardGame, Player),
+        (Player = 0 ->
+         nl, write('   -> **Whites Playing'), nl, nl,
+         showBoard(BoardGame), nl,
+         write('   -> Placing a dice'), nl, nl,
+         write('      -> Line '),
+         read(Line), Line > 0, Line < 6,
+         write('      -> Col '),
+         read(Col), Col > 0, Col < 6,
+         write('      -> Dice Value '),
+         read(DiceValue), DiceValue > 0, DiceValue < 7,
+         getCell(Line, Col, BoardGame, CellToMove - _),
+         (CellToMove \= 0 -> 
+          nl, nl, 
+          write('  -> This cell is already taken. Try again! Press 0 to continue.'), nl, 
+          write('  '), 
+          read(Back), 
+          Back = 0, 
+          normalGame(1, BoardGame)
+         ;
+          placeDice(BoardGame, Line, Col, NewBoard, DiceValue, 1), 
+          length(NewBoard, Change),
+          (Change = 5 ->  
+           normalGame(2, NewBoard)
+          ; 
+           normalGame(1, BoardGame)))
         ; 
-         normalGame(1, BoardGame)).
+         (Player = 1 -> 
+          clearScreen(100),
+          write('   -> **Whites WIN'), nl, nl, 
+          showBoard(BoardGame), nl,  
+          write('  -> Press 0 to Back to menu. '), 
+          read(Back), 
+          Back = 0, startGame) 
+        ; 
+         (Player = 2 ->
+          clearScreen(100),
+          write('   -> <>Blacks WIN'), nl, nl, 
+          showBoard(BoardGame), nl,  
+          write('  -> Press 0 to Back to menu. '),  
+          read(Back), 
+          Back = 0, startGame)).
 
 % Black Player 
 
 normalGame(2, BoardGame):-
         clearScreen(100),
-        nl, write('   -> Blacks Playing'), nl, nl,
-        showBoard(BoardGame),nl,
-        write('   -> Placing a dice'), nl, nl,
-        write('      -> Line '),
-        read(Line), Line > 0, Line < 6,
-        write('      -> Col '),
-        read(Col), Col > 0, Col < 6,
-        write('      -> Dice Value '),
-        read(DiceValue), DiceValue > 0, DiceValue < 7,
-        getCell(Line, Col, BoardGame, CellToMove - _),
-        (CellToMove \= 0 -> 
-         nl, nl, 
-         write('  -> This cell is already taken. Try again! Press 0 to continue.'), nl, 
-         write('  '), 
-         read(Back), 
-         Back = 0, 
-         normalGame(1, BoardGame)
+        checkWinner(BoardGame, Player),
+        (Player = 0 ->
+         nl, write('   -> <>Blacks Playing'), nl, nl,
+         showBoard(BoardGame),nl,
+         write('   -> Placing a dice'), nl, nl,
+         write('      -> Line '),
+         read(Line), Line > 0, Line < 6,
+         write('      -> Col '),
+         read(Col), Col > 0, Col < 6,
+         write('      -> Dice Value '),
+         read(DiceValue), DiceValue > 0, DiceValue < 7,
+         getCell(Line, Col, BoardGame, CellToMove - _),
+         (CellToMove \= 0 -> 
+          nl, nl, 
+          write('  -> This cell is already taken. Try again! Press 0 to continue.'), nl, 
+          write('  '), 
+          read(Back), 
+          Back = 0, 
+          normalGame(2, BoardGame)
+         ;
+          placeDice(BoardGame, Line, Col, NewBoard, DiceValue, 2), 
+          length(NewBoard, Change),
+          (Change = 5 -> 
+           normalGame(1, NewBoard)
+          ; 
+           normalGame(2, BoardGame)))
         ;
-         placeDice(BoardGame, Line, Col, NewBoard, DiceValue, 2), 
-         length(NewBoard, Change),
-         Change = 5 -> 
-         normalGame(1, NewBoard) 
+         (Player = 1 ->
+          clearScreen(100), 
+          write('   -> **Whites WIN'), nl, nl, 
+          showBoard(BoardGame), nl,  
+          write('  -> Press 0 to Back to menu. '), 
+          read(Back), 
+          Back = 0, startGame) 
         ; 
-         normalGame(2, BoardGame)).
+         (Player = 2 ->
+          clearScreen(100),
+          write('   -> <>Blacks WIN'), nl, nl, 
+          showBoard(BoardGame), nl,  
+          write('  -> Press 0 to Back to menu. '), 
+          read(Back), 
+          Back = 0, startGame)).
 
 
 placeDice(Board, 1, 1, NewBoard, DiceValue, Player):- 
@@ -334,6 +369,4 @@ placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
            putDice(Line, Col, Board, Player-DiceValue, NewBoard) 
           ; 
            write('A non-capturing placement must show a single pip')))).
-
-
 
