@@ -80,7 +80,11 @@ normalGame(1, BoardGame):-
           length(NewBoard, Change),
           (Change = 5 ->  
            normalGame(2, NewBoard)
-          ; 
+          ;  
+           nl, nl,
+           write('     '),  
+           read(Back), 
+           Back = 0, 
            normalGame(1, BoardGame)))
         ; 
          (Player = 1 -> 
@@ -117,7 +121,7 @@ normalGame(2, BoardGame):-
          getCell(Line, Col, BoardGame, CellToMove - _),
          (CellToMove \= 0 -> 
           nl, nl, 
-          write('  -> This cell is already taken. Try again! Press 0 to continue.'), nl, 
+          write('  -> This cell is already taken. Try again! Press 0 to continue.'),
           write('  '), 
           read(Back), 
           Back = 0, 
@@ -128,11 +132,15 @@ normalGame(2, BoardGame):-
           (Change = 5 -> 
            normalGame(1, NewBoard)
           ; 
+           nl, nl,
+           write('     '), 
+           read(Back), 
+           Back = 0, 
            normalGame(2, BoardGame)))
         ;
          (Player = 1 ->
           clearScreen(100), 
-          write('   -> **Whites WIN'), nl, nl, 
+          write('   -> Congratulations **Whites WIN** <-'), nl, nl, 
           showBoard(BoardGame), nl,  
           write('  -> Press 0 to Back to menu. '), 
           read(Back), 
@@ -140,7 +148,7 @@ normalGame(2, BoardGame):-
         ; 
          (Player = 2 ->
           clearScreen(100),
-          write('   -> <>Blacks WIN'), nl, nl, 
+          write('   -> Congratulations <>Blacks WIN<> <-'), nl, nl, 
           showBoard(BoardGame), nl,  
           write('  -> Press 0 to Back to menu. '), 
           read(Back), 
@@ -159,7 +167,7 @@ placeDice(Board, 1, 1, NewBoard, DiceValue, Player):-
          (DiceValue = 1 -> 
           putDice(1, 1, Board, Player-DiceValue, NewBoard) 
          ; 
-          write('A non-capturing placement must show a single pip'))).
+          nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.'))).
 
 placeDice(Board, 1, 5, NewBoard, DiceValue, Player):- 
         getCell(1, 4, Board, _ - LeftValue),
@@ -173,7 +181,7 @@ placeDice(Board, 1, 5, NewBoard, DiceValue, Player):-
          (DiceValue = 1 -> 
           putDice(1, 5, Board, Player-DiceValue, NewBoard) 
          ; 
-          write('A non-capturing placement must show a single pip'))).
+          nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.'))).
 
 placeDice(Board, 5, 1, NewBoard, DiceValue, Player):- 
         getCell(5, 2, Board, _ - RightValue),
@@ -187,7 +195,7 @@ placeDice(Board, 5, 1, NewBoard, DiceValue, Player):-
          (DiceValue = 1 -> 
           putDice(5, 1, Board, Player-DiceValue, NewBoard) 
          ; 
-          write('A non-capturing placement must show a single pip'))). 
+          nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.'))). 
 
 placeDice(Board, 5, 5, NewBoard, DiceValue, Player):- 
         getCell(5, 4, Board, _ - LeftValue),
@@ -201,7 +209,7 @@ placeDice(Board, 5, 5, NewBoard, DiceValue, Player):-
          (DiceValue = 1 -> 
           putDice(5, 5, Board, Player-DiceValue, NewBoard) 
          ; 
-          write('A non-capturing placement must show a single pip'))). 
+          nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.'))). 
 
 placeDice(Board, 1, Col, NewBoard, DiceValue, Player):-
         RightCol is Col + 1,
@@ -231,7 +239,7 @@ placeDice(Board, 1, Col, NewBoard, DiceValue, Player):-
           (DiceValue = 1 -> 
            putDice(1, Col, Board, Player-DiceValue, NewBoard) 
           ; 
-           write('A non-capturing placement must show a single pip')))). 
+           nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))). 
 
 placeDice(Board, Line, 1, NewBoard, DiceValue, Player):-
         UpLine is Line - 1,
@@ -261,7 +269,7 @@ placeDice(Board, Line, 1, NewBoard, DiceValue, Player):-
           (DiceValue = 1 -> 
            putDice(Line, 1, Board, Player-DiceValue, NewBoard) 
           ; 
-           write('A non-capturing placement must show a single pip')))).
+           nl,nl,write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))).
 
 
 placeDice(Board, 5, Col, NewBoard, DiceValue, Player):-
@@ -292,7 +300,7 @@ placeDice(Board, 5, Col, NewBoard, DiceValue, Player):-
           (DiceValue = 1 -> 
            putDice(5, Col, Board, Player-DiceValue, NewBoard) 
           ; 
-           write('A non-capturing placement must show a single pip')))).
+           nl, nl, write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))).
 
 placeDice(Board, Line, 5, NewBoard, DiceValue, Player):-
         UpLine is Line - 1,
@@ -322,7 +330,8 @@ placeDice(Board, Line, 5, NewBoard, DiceValue, Player):-
           (DiceValue = 1 -> 
            putDice(Line, 5, Board, Player-DiceValue, NewBoard) 
           ; 
-           write('A non-capturing placement must show a single pip')))).
+           nl,nl,
+           write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))).
 
 placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
         RightCell is Col + 1,
@@ -368,5 +377,6 @@ placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
           (DiceValue = 1 -> 
            putDice(Line, Col, Board, Player-DiceValue, NewBoard) 
           ; 
-           write('A non-capturing placement must show a single pip')))).
+           nl,nl,
+           write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))).
 
