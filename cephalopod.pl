@@ -16,16 +16,18 @@ clearScreen(N):- nl, N1 is N-1, clearScreen(N1).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 board([
-         [0-100,  2-4,    2-4,  2-4,  1-1],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
-         [2-4,  1-5,        2-4,  1-1,      2-4],  % 2 - X -> 2 Represents the black color and the X represents the value of the piece
-         [2-4,      2-4,    2-4,  2-4,  1-1],      % 0 - (100) -> Represents an empty cell
-         [2-4,  2-4,    2-4,  1-1,      2-4],
-         [2-4,  2-4,    2-4,  2-4,  2-4]
+         [0-100,  0-100,  2-4,  2-4,  0-100],      % 1 - X -> 1 Represents the white color and the X represents the value of the piece
+         [2-4,    1-5,    2-4,  1-1,  2-4],      % 2 - X -> 2 Represents the black color and the X represents the value of the piece
+         [2-4,    2-4,    2-4,  2-4,  1-1],      % 0 - (100) -> Represents an empty cell
+         [2-4,    2-4,    2-4,  1-1,  2-4],
+         [2-4,    2-4,    2-4,  2-4,  2-4]
       ]).
 
 
 startGame:- 
-        clearScreen(100), cephalopod, menu, 
+        clearScreen(100), 
+        cephalopod, 
+        menu, 
         read(Choice),
         nl, 
         write(' >'), Choice > 0, Choice =< 3,
@@ -50,7 +52,12 @@ playGame:- clearScreen(100), cephalopod, gameMode,
           write('Wrong input! Try again!'), playGame)).
 
 
-initializeGame(Mode):- board(BoardGame), Mode = 1 -> normalGame(1, BoardGame).
+initializeGame(1):- board(BoardGame), normalGame(1, BoardGame).
+%initializeGame(2):- board(BoardGame).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%% Player VS Player %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % White Player
 
@@ -379,4 +386,19 @@ placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
           ; 
            nl,nl,
            write('    -> A non-capturing placement must show a single pip. Press 0 to try again.')))).
+
+
+
+% -> Valid Moves <- %
+
+
+validMoves(Board, ValidMoves):-
+        write('%%%%%%% Valid Moves %%%%%%%'),
+        getEmptyCellsLine(Board, 1, 1, Line1),
+        getEmptyCellsLine(Board, 2, 1, Line2),
+        getEmptyCellsLine(Board, 3, 1, Line3),
+        getEmptyCellsLine(Board, 4, 1, Line4),
+        getEmptyCellsLine(Board, 5, 1, Line5),
+        append([Line1, Line2, Line3, Line4, Line5], [], ValidMoves).
+
 

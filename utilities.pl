@@ -132,6 +132,21 @@ countDicesLine([Player - _ | Rest], Player, Counter):- countDicesLine(Rest, Play
 countDicesLine([_ - _ | Rest], Player, Counter):- countDicesLine(Rest, Player, Counter).
 
 
+% Gets all empty Cells %
+
+checkIfCellIsEmpty(Board, X, Y):- getCell(X, Y, Board, 0-100).
+
+getEmptyCellsLine(_, _, 6, []).
+
+getEmptyCellsLine(Board, Line, Col, [Line-Col | Result]):-
+        checkIfCellIsEmpty(Board, Line, Col),
+        !,
+        NewCol is Col + 1,
+        getEmptyCellsLine(Board, Line, NewCol, Result).
+
+getEmptyCellsLine(Board, Line, Col, Result):-
+        NewCol is Col + 1,
+        getEmptyCellsLine(Board, Line, NewCol, Result).
 
 
 
