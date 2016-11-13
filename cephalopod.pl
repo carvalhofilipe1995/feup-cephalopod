@@ -53,7 +53,6 @@ playGame:- clearScreen(100), cephalopod, gameMode,
 
 
 initializeGame(1):- board(BoardGame), normalGame(1, BoardGame).
-%initializeGame(2):- board(BoardGame).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%% Player VS Player %%%%%%%%%%%%%%%%
@@ -67,6 +66,7 @@ normalGame(1, BoardGame):-
         (Player = 0 ->
          nl, write('   -> **Whites Playing'), nl, nl,
          showBoard(BoardGame), nl,
+         validMoves(BoardGame),
          write('   -> Placing a dice'), nl, nl,
          write('      -> Line '),
          read(Line), Line > 0, Line < 6,
@@ -118,6 +118,7 @@ normalGame(2, BoardGame):-
         (Player = 0 ->
          nl, write('   -> <>Blacks Playing'), nl, nl,
          showBoard(BoardGame),nl,
+         validMoves(BoardGame),
          write('   -> Placing a dice'), nl, nl,
          write('      -> Line '),
          read(Line), Line > 0, Line < 6,
@@ -392,13 +393,19 @@ placeDice(Board, Line, Col, NewBoard, DiceValue, Player):-
 % -> Valid Moves <- %
 
 
-validMoves(Board, ValidMoves):-
-        write('%%%%%%% Valid Moves %%%%%%%'),
+validMoves(Board):-
+        write('    %%%%%%%%%% Valid Moves %%%%%%%%%%'),
+        nl, nl,
+        write('   -> In these empty Cells you should play a single pip (non-capturing placement) or the pip sum of the adjacent dices.'),
         getEmptyCellsLine(Board, 1, 1, Line1),
         getEmptyCellsLine(Board, 2, 1, Line2),
         getEmptyCellsLine(Board, 3, 1, Line3),
         getEmptyCellsLine(Board, 4, 1, Line4),
         getEmptyCellsLine(Board, 5, 1, Line5),
-        append([Line1, Line2, Line3, Line4, Line5], [], ValidMoves).
+        append([Line1, Line2, Line3, Line4, Line5], [], ValidMoves), 
+        nl , nl,
+        write('         Moves: '), 
+        write(ValidMoves),
+        nl, nl.
 
 

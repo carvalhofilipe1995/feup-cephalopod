@@ -14,8 +14,6 @@ menu:- write('          1. Play game'), nl,
        write('          3. Exit'), nl.
 
 gameMode:- write('        1. PLAYER VS PLAYER'), nl,
-           write('        2. PLAYER VS PC'), nl,
-           write('        3. PC     VS PC'), nl, nl,
            write('    > Press 0 to back to menu'), nl.
 
 rules:-
